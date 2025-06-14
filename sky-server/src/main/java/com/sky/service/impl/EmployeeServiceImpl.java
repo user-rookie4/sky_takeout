@@ -16,8 +16,9 @@ import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.EmployeeMapper;
 import com.sky.result.PageResult;
 import com.sky.service.EmployeeService;
-
+import com.sky.context.BaseContext;
 // import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -70,6 +71,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+
+
     /**
      * 保存员工信息
      * 
@@ -78,22 +81,27 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void save(EmployeeDTO employeeDTO) {
         Employee employee = new Employee();
-        // 对象属性拷贝
+        //对象属性拷贝
         BeanUtils.copyProperties(employeeDTO, employee);
-        // 设置账号状态
+        //对象状态设置
         employee.setStatus(StatusConstant.ENABLE);
-        // 设置密码 默认密码为123456
+        //对象默认密码
         employee.setPassword(DigestUtils.md5DigestAsHex(PasswordConstant.DEFAULT_PASSWORD.getBytes()));
-        // 设置更新时间和创建时间
-        // employee.setCreateTime(LocalDateTime.now());
-        // employee.setUpdateTime(LocalDateTime.now());
-        // 记录当家创建人和更新人 id
-        // employee.setCreateUser(BaseContext.getCurrentId());
-        // employee.setUpdateUser(BaseContext.getCurrentId());
 
-        // 保存到数据库
+        //创建时间与修改时间
+        employee.setCreateTime(LocalDateTime.now());
+        employee.setCreateTime(LocalDateTime.now());
+
+        //当前记录创建人用户的id
+        // TODO 后期改为当前登录用户id
+        employee.setCreateUser(BaseContext.getCurrentId());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
         employeeMapper.insert(employee);
+
     }
+
+
 
     @Override
     public PageResult<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO) {
