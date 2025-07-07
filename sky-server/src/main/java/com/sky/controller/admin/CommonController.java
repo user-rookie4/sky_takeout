@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -31,14 +32,18 @@ public class CommonController {
         if (originalFilename != null) {
             suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
         }
-        String fileName = UUID.randomUUID().toString() + suffix;
+        String fileName = UUID.randomUUID() + suffix;
         String imgUrl = "http://localhost/media/" + fileName;
         try {
-            file.transferTo(new java.io.File("D:\\Variable\\nginx-1.24.0\\media\\" + fileName));
+//            file.transferTo(new java.io.File("D:\\Variable\\nginx-1.24.0\\media\\" + fileName));
+            File dest = new File("/Users/apple/desktop/sky/media/" + fileName);
+            file.transferTo(dest);
             return Result.success(imgUrl);
-        } catch (IllegalStateException | IOException e) {
+        } catch (Exception e) {
             log.error("上传图片失败：{}", e);
             return Result.error("上传图片失败");
         }
     }
 }
+//Exception e
+//IllegalStateException | IOException e
