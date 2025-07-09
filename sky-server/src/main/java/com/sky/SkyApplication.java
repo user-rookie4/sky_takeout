@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 @EnableCaching // 开启缓存
 @EnableScheduling // 开启定时任务
-
+//dnjawdjkshaudhuaw
 public class SkyApplication {
     public static void main(String[] args) {
         SpringApplication.run(SkyApplication.class, args);
